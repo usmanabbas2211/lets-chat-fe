@@ -3,22 +3,14 @@ import React from 'react'
 const Messages = ({ messages }) => {
     return (
         <div className="messages" id="chat">
-            {/* <div className="time">Today at 11:41</div>
-            <div className="message parker">
-                Hey, man! What`s up, Mr Stark?👋
-            </div>
-            <div className="message stark">Kid, where`d you come from?</div>
-            <div className="message parker">Field trip! 🤣</div>
-            <div className="message parker">
-                Uh, what is this guy`s problem, Mr. Stark? 🤔
-            </div>
-            <div className="message stark">
-                Uh, he`s from space, he came here to steal a necklace from a
-                wizard.
-            </div> */}
             {messages.map((msg, idx) => (
-                <div className="message parker" key={idx}>
-                    {msg}
+                <div
+                    className={`message ${
+                        msg.type === 'sent' ? 'parker' : 'stark'
+                    }`}
+                    key={idx}
+                >
+                    {msg.message}
                 </div>
             ))}
             <div className="message stark">

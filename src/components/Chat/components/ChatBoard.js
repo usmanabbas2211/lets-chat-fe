@@ -6,20 +6,29 @@ const socket = new io.connect('http://localhost:5000/')
 const ChatBoard = () => {
     const [message, setMessage] = useState('')
     const [messages, setMessages] = useState([])
+    const [client, setClient] = useState('')
     useEffect(() => {
-        console.log('useffect running')
-        socket.on('got-message', (data) =>
-            setMessages((prev) => [...prev, data])
+        socket.on('got-message', (message) =>
+            setMessages((prev) =>
+                prev.concat([{ message: message, type: 'recieved' }])
+            )
         )
     }, [socket])
     const sendMessage = (e) => {
         e.preventDefault()
-        // console.log(message, socket)
-        socket.emit('message', message)
+        setMessages((prev) => prev.concat([{ message: message, type: 'sent' }]))
+        socket.emit('message', { message: message, socketId: client })
         setMessage('')
     }
     return (
         <div className="chat">
+            <p>{socket.id}</p>
+            <input
+                type="text"
+                placeholder="enter client id"
+                value={client}
+                onChange={(e) => setClient(e.target.value)}
+            />
             <div className="contact bar">
                 <div className="pic stark"></div>
                 <div className="name">Tony Stark</div>
